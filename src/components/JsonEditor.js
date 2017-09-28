@@ -1,0 +1,72 @@
+import React from 'react';
+import JSONEditor from 'jsoneditor';
+import PropTypes from 'prop-types';
+
+import 'jsoneditor/dist/jsoneditor.css'
+
+class JsonEditor extends React.Component {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
+  }
+
+  componentDidMount () {
+    // store the node on the `this.node` so we can access elsewhere
+    this.node = this.refs.editor;
+
+    this.$editor = new JSONEditor(this.node, {
+      ...this.props,
+      onChange: this.onEditorChange.bind(this),
+      onError: this.onEditorError.bind(this),
+    });
+
+    // moved this code so we can call it in other places
+    this.updateValue();
+  }
+
+  componentWillUnmount () {
+    this.$editor.destroy();
+  }
+
+  shouldComponentUpdate () {
+    return false;
+  }
+
+  componentWillReceiveProps (newProps) {
+    this.updateValue(newProps);
+  }
+
+  updateValue (props) {
+    props = props || this.props;
+
+    try {
+      if (props.value && JSON.stringify(props.value) !== JSON.stringify(this.$editor.get())) {
+        this.$editor.set(props.value);
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  onEditorChange () {
+    try {
+      const val = this.$editor.get();
+
+      this.props.onChange(val);
+    } catch (e) {
+      this.onEditorError(e);
+    }
+  }
+
+  onEditorError (e) {
+    this.props.onError(e);
+  }
+
+  render () {
+    return (
+      <div ref="editor" className="h100" />
+    );
+  }
+}
+
+export default JsonEditor;
