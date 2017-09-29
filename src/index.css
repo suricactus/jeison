@@ -44,6 +44,7 @@ html, body {
   padding: 1rem;
   flex: 2;
   height: 100%;
+  overflow: auto;
 }
 
 .j-editor-controls {

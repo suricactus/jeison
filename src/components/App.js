@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-
 import PageTopMenu from './PageTopMenu';
-import * as actionCreators from '../actions/actionCreators'; 
+import * as actionCreators from '../actions/actionCreators';
 
 class App extends Component {
-  render() {
-
+  render () {
     return (
       <div>
         <PageTopMenu />
@@ -18,12 +16,11 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return state;
 }
 
-
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }
 

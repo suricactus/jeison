@@ -2,12 +2,14 @@ import React from 'react';
 import JSONEditor from 'jsoneditor';
 import PropTypes from 'prop-types';
 
-import 'jsoneditor/dist/jsoneditor.css'
+import 'jsoneditor/dist/jsoneditor.css';
 
 class JsonEditor extends React.Component {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
+  static get propTupes () {
+    return {
+      onChange: PropTypes.func.isRequired,
+      onError: PropTypes.func.isRequired
+    };
   }
 
   componentDidMount () {
@@ -17,7 +19,7 @@ class JsonEditor extends React.Component {
     this.$editor = new JSONEditor(this.node, {
       ...this.props,
       onChange: this.onEditorChange.bind(this),
-      onError: this.onEditorError.bind(this),
+      onError: this.onEditorError.bind(this)
     });
 
     // moved this code so we can call it in other places
@@ -40,17 +42,17 @@ class JsonEditor extends React.Component {
     props = props || this.props;
 
     try {
-      if (props.value && JSON.stringify(props.value) !== JSON.stringify(this.$editor.get())) {
-        this.$editor.set(props.value);
+      if (props.value !== this.$editor.getText()) {
+        this.$editor.setText(props.value || '');
       }
     } catch (e) {
-      console.log(e)
+      this.onEditorError(e);
     }
   }
 
   onEditorChange () {
     try {
-      const val = this.$editor.get();
+      const val = this.$editor.getText() || '';
 
       this.props.onChange(val);
     } catch (e) {
@@ -64,7 +66,7 @@ class JsonEditor extends React.Component {
 
   render () {
     return (
-      <div ref="editor" className="h100" />
+      <div ref='editor' className='h100' />
     );
   }
 }

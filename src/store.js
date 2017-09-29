@@ -5,27 +5,26 @@ import createHistory from 'history/createBrowserHistory';
 import reducers from './reducers';
 import persistState from 'redux-localstorage';
 
-
 export const history = createHistory();
 
 const initialState = {};
 
-
 const enhancers = [
-  persistState()
+  // persistState()
 ];
+
 const middleware = [
   thunk,
   routerMiddleware(history)
-  ];
+];
 
-  if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   const devToolsExtension = window.devToolsExtension;
-  ;
+
   if (typeof devToolsExtension === 'function') {
     enhancers.push(devToolsExtension());
-  };
-};
+  }
+}
 
 const composedEnhancers = compose(
   applyMiddleware(...middleware),
@@ -38,6 +37,6 @@ const store = createStore(
   reducers,
   initialState,
   composedEnhancers
-)
+);
 
-export default store
+export default store;

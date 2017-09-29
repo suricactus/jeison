@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-
-import editorsReducer from '../routes/editors/reducers/editorsReducer';
-
+import editorsReducer from '../routes/editor/reducers/editorsReducer';
+import validatorsReducer from '../routes/validator/reducers/validatorsReducer';
+import schemaList from '../data/schemas.json';
 
 const rootReducer = combineReducers({
   editors: editorsReducer,
-  routing: routerReducer
+  validators: validatorsReducer,
+  routing: routerReducer,
+  schemaList: () => schemaList
 });
 
 export default rootReducer;
