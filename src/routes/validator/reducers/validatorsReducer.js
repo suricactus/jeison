@@ -1,5 +1,5 @@
-export default function editorsReducer (state = [createDefaultTab()], action) {
-  console.log(action);
+export default function validatorsReducer (state = [createDefaultTab()], action) {
+  if (action.storeName !== 'validators') return state;
 
   if (action.tabIndex !== undefined && action.type !== 'ASIDE_TAB_NEW' && action.type !== 'ASIDE_TAB_CLOSE' && action.type !== 'ASIDE_TAB_RENAME') {
     return [
@@ -11,24 +11,18 @@ export default function editorsReducer (state = [createDefaultTab()], action) {
 
   switch (action.type) {
     case 'ASIDE_TAB_NEW':
-      if (action.storeName !== 'validators') return state;
-
       return [
         ...state,
         createDefaultTab(state)
       ];
 
     case 'ASIDE_TAB_CLOSE':
-      if (action.storeName !== 'validators') return state;
-
       return [
         ...state.slice(0, action.tabIndex),
         ...state.slice(action.tabIndex + 1)
       ];
 
     case 'ASIDE_TAB_RENAME':
-      if (action.storeName !== 'validators') return state;
-
       return [
         ...state.slice(0, action.tabIndex),
         {

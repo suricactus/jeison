@@ -1,4 +1,6 @@
 export default function editorsReducer (state = [createDefaultTab()], action) {
+  if (action.storeName !== 'editors') return state;
+
   if (action.tabIndex !== undefined && action.type !== 'ASIDE_TAB_NEW' && action.type !== 'ASIDE_TAB_CLOSE' && action.type !== 'ASIDE_TAB_RENAME') {
     return [
       ...state.slice(0, action.tabIndex),
@@ -9,25 +11,18 @@ export default function editorsReducer (state = [createDefaultTab()], action) {
 
   switch (action.type) {
     case 'ASIDE_TAB_NEW':
-      console.log(action.storeName);
-      if (action.storeName !== 'editors') return state;
-
       return [
         ...state,
         createDefaultTab(state)
       ];
 
     case 'ASIDE_TAB_CLOSE':
-      if (action.storeName !== 'editors') return state;
-
       return [
         ...state.slice(0, action.tabIndex),
         ...state.slice(action.tabIndex + 1)
       ];
 
     case 'ASIDE_TAB_RENAME':
-      if (action.storeName !== 'editors') return state;
-
       return [
         ...state.slice(0, action.tabIndex),
         {
