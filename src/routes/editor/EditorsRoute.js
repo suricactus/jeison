@@ -37,6 +37,7 @@ class EditorsRoute extends React.Component {
       <section className='j-pane-container'>
         <div className='j-pane'>
           <JsonEditor
+            className='h100'
             mode={'code'}
             value={currentEditor.leftJsonPaneValue}
             onChange={this.changeJsonPaneHandler.bind(this, 'left')}
@@ -47,6 +48,7 @@ class EditorsRoute extends React.Component {
 
         <div className='j-pane'>
           <JsonEditor
+            className='h100'
             mode={'tree'}
             value={currentEditor.rightJsonPaneValue}
             onChange={this.changeJsonPaneHandler.bind(this, 'right')}

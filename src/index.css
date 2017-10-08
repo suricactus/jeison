@@ -13,7 +13,7 @@ html, body {
   height: 100%;
 }
 
-.j-main {
+.j-page {
   height: calc(100% - 50px);
   position: relative;
 }
@@ -35,15 +35,25 @@ html, body {
   height: 100%;
 }
 
+.j-main {
+  height: 100%;
+  padding-top: 1rem;
+}
+
 .j-pane-container {
   display: flex;
+  flex-direction: row;
   height: 100%;
+  width: 100%;
+  align-items: stretch;
+  /*margin:0 -1rem;*/
 }
 
 .j-pane {
-  padding: 1rem;
-  flex: 2;
-  height: 100%;
+  flex-grow: 2;
+  overflow: auto;
+  padding: 0 1rem;
+  width: 50%;
   overflow: auto;
 }
 
@@ -64,8 +74,6 @@ html, body {
 /* TODO implement the resizer*/
 .j-editor-control-resize {
   background: #efefef;
-  align-self: stretch;
-  flex: 0.95;
   display: none !important;
 }
 
@@ -76,6 +84,17 @@ html, body {
 
 .h100 {
   height: 100%;
+}
+
+.j-pane-vertical {
+  flex-direction: column;
+  display: flex;
+  align-items: stretch;
+}
+
+.j-pane-vertical > div {
+  flex: 2;
+  padding-bottom: 1rem;
 }
 
     .Resizer {
@@ -126,4 +145,8 @@ html, body {
     }
     .Resizer.disabled:hover {
       border-color: transparent;
+    }
+
+    .SplitPane {
+      overflow: auto !important;
     }

@@ -10,7 +10,6 @@ import stringify from 'json-stringify-pretty-compact';
 import { toastr } from 'react-redux-toastr';
 
 import JsonEditor from '../../components/JsonEditor';
-import Layout from '../../components/Layout';
 import * as actionCreators from './actions/actionCreators';
 
 import 'jsondiffpatch/public/formatters-styles/html.css';
@@ -100,51 +99,60 @@ class ValidatorsRoute extends React.Component {
 
   render () {
     return (
-      <section className='j-pane-container'>
-        <div className='j-pane'>
-          <JsonEditor
-            mode={'code'}
-            value={this.currentDiffObj.leftValue}
-            onChange={this.onChangePaneValue.bind(this, 'left')}
-            onError={this.onErrorJson.bind(this)}
+      <div>
+        <SplitPane
+          split='horizontal'
+          minSize={300}
+          maxSize={3000}
+          defaultSize={400}
+          className='primary'>
+
+          <section className='j-pane-container'>
+            <div className='j-pane j-pane-vertical'>
+              <JsonEditor
+                mode={'code'}
+                value={this.currentDiffObj.leftValue}
+                onChange={this.onChangePaneValue.bind(this, 'left')}
+                onError={this.onErrorJson.bind(this)}
               />
 
-        </div>
-        <div className='j-pane'>
-          <JsonEditor
-            mode={'code'}
-            value={this.currentDiffObj.rightValue}
-            onChange={this.onChangePaneValue.bind(this, 'right')}
-            onError={this.onErrorJson.bind(this)}
+            </div>
+            <div className='j-pane j-pane-vertical'>
+              <JsonEditor
+                mode={'code'}
+                value={this.currentDiffObj.rightValue}
+                onChange={this.onChangePaneValue.bind(this, 'right')}
+                onError={this.onErrorJson.bind(this)}
               />
-        </div>
-        <div className='j-pane'>
+            </div>
+          </section>
+          <section className='j-pane-container'>
+            <div className='j-pane'>
 
-          <div className='col-xs-12 clearfix'>
-
-            <FormGroup>
-              <Label>Choose output type:</Label>
-              <ButtonGroup>
-                <Button
-                  color='primary'
-                  onClick={this.onClickOutputBtn.bind(this, RADIO_VALUE_HTML)}
-                  active={this.state.rSelected === RADIO_VALUE_HTML}>
+              <FormGroup>
+                <Label>Choose output type:</Label>
+                <ButtonGroup>
+                  <Button
+                    color='primary'
+                    onClick={this.onClickOutputBtn.bind(this, RADIO_VALUE_HTML)}
+                    active={this.state.rSelected === RADIO_VALUE_HTML}>
                   HTML
                 </Button>
-                <Button
-                  color='primary'
-                  onClick={this.onClickOutputBtn.bind(this, RADIO_VALUE_RFC6902)}
-                  active={this.state.rSelected === RADIO_VALUE_RFC6902}>
+                  <Button
+                    color='primary'
+                    onClick={this.onClickOutputBtn.bind(this, RADIO_VALUE_RFC6902)}
+                    active={this.state.rSelected === RADIO_VALUE_RFC6902}>
                   JSON
                 </Button>
-              </ButtonGroup>
-            </FormGroup>
+                </ButtonGroup>
+              </FormGroup>
 
-            {this.renderResult()}
+              {this.renderResult()}
 
-          </div>
-        </div>
-      </section>
+            </div>
+          </section>
+        </SplitPane>
+      </div>
     );
   }
 }

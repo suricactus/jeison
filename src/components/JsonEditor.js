@@ -68,7 +68,7 @@ class JsonEditor extends React.Component {
 
   render () {
     return (
-      <div ref='editor' className='h100' />
+      <div ref='editor' className={this.props.className} />
     );
   }
 }

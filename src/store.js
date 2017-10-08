@@ -10,7 +10,7 @@ export const history = createHistory();
 const initialState = {};
 
 const enhancers = [
-  // persistState()
+  persistState()
 ];
 
 const middleware = [

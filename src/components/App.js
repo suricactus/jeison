@@ -8,8 +8,6 @@ import * as actionCreators from '../actions/actionCreators';
 
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
-import { ConnectedRouter } from 'react-router-redux';
-
 import EditorsRoute from '../routes/editor/EditorsRoute';
 import ValidatorsRoute from '../routes/validator/ValidatorsRoute';
 import DiffsRoute from '../routes/diff/DiffsRoute';
@@ -40,8 +38,11 @@ class App extends React.Component {
         return (
           <Route key={i} path={`${route.url}/:tabIndex`} render={props => {
             return (this.props[route.storeName][ props.match.params.tabIndex ])
-              ? <AsideVerticalTabs tabList={this.props[route.storeName]} linkBase={route.url} storeName={route.storeName} />
-              : <Redirect to={`${route.url}`} />;
+              ? <AsideVerticalTabs
+                tabList={this.props[route.storeName]}
+                linkBase={route.url}
+                storeName={route.storeName} />
+              : <Redirect key={i} to={`${route.url}`} />;
           }} />
         );
       })
@@ -56,10 +57,10 @@ class App extends React.Component {
         <Route key={i} path={`${route.url}/:tabIndex`} render={props => {
           return (this.props[route.storeName][ props.match.params.tabIndex ])
               ? React.cloneElement(route.component, props)
-              : <Redirect to={`${route.url}`} />;
+              : <Redirect key={i} to={`${route.url}`} />;
         }} />
       );
-      const redirectComponent = <Redirect from={`${route.url}`} to={`${route.url}/0`} />;
+      const redirectComponent = <Redirect key={i} from={`${route.url}`} to={`${route.url}/0`} />;
 
       result.push(routeComponent);
       result.push(redirectComponent);
@@ -82,7 +83,7 @@ class App extends React.Component {
 
         <PageTopMenu />
 
-        <div className='j-main'>
+        <div className='j-page'>
           <SplitPane
             split='vertical'
             minSize={100}
@@ -96,12 +97,10 @@ class App extends React.Component {
               </Switch>
             </aside>
 
-            <section className='j-pane-container'>
-              <section className='j-pane'>
-                <Switch>
-                  {this.renderRouterContent()}
-                </Switch>
-              </section>
+            <section className='j-main'>
+              <Switch>
+                {this.renderRouterContent()}
+              </Switch>
             </section>
           </SplitPane>
         </div>

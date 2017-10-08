@@ -6,7 +6,6 @@ import SplitPane from 'react-split-pane';
 import Ajv from 'ajv';
 
 import JsonEditor from '../../components/JsonEditor';
-import AsideVerticalTabs from '../../components/AsideVerticalTabs';
 import ValidationFeedback from '../../components/ValidationFeedback';
 import * as actionCreators from './actions/actionCreators';
 
@@ -158,49 +157,64 @@ class ValidatorsRoute extends React.Component {
 
   render () {
     return (
-      <section className='j-pane-container'>
-        <div className='j-pane'>
+      <div className='h100'>
+        <nav>
           <div className='form-inline'>
             <label>
-                  Select predefined schema:
-                  {this.renderSelectBox()}
+                    Select predefined schema:
+                    {this.renderSelectBox()}
             </label>
           </div>
+        </nav>
+        <div style={{position: 'relative', height: 'calc(100% - 4rem)', 'overflow': 'auto'}}>
+          <SplitPane
+            split='horizontal'
+            minSize={300}
+            maxSize={2000}
+            defaultSize={400}
+            className='primary'>
+            <section className='j-pane-container'>
+              <div className='j-pane j-pane-vertical'>
 
-          <div className='col-xs-6'>
-            <h3>Schema</h3>
-            <JsonEditor
-              mode={'code'}
-              value={this.currentValidator.schemaValue}
-              onChange={this.changeSchemaHandler.bind(this)}
-              onError={e => {}}
-                  />
+                <h3>Schema</h3>
+                <JsonEditor
+                  mode={'code'}
+                  value={this.currentValidator.schemaValue}
+                  onChange={this.changeSchemaHandler.bind(this)}
+                  onError={e => {}}
+                    />
+              </div>
+              <div className='j-pane j-pane-vertical'>
+                <h3>Data</h3>
+                <JsonEditor
+                  className=''
+                  mode={'code'}
+                  value={this.currentValidator.jsonValue}
+                  onChange={this.changeDataHandler.bind(this)}
+                  onError={e => {}}
+                    />
+              </div>
+            </section>
+            <section className='j-pane-container'>
+              <div className='j-pane'>
+                <ValidationFeedback
+                  errors={this.state.schemaErrors}
+                  success='Schema is valid!!!'
+                  title='Schema validation' />
 
-          </div>
-          <div className='col-xs-6'>
-            <h3>Data</h3>
-            <JsonEditor
-              mode={'code'}
-              value={this.currentValidator.jsonValue}
-              onChange={this.changeDataHandler.bind(this)}
-              onError={e => {}}
-                  />
+              </div>
+              <div className='j-pane'>
+                <ValidationFeedback
+                  errors={this.state.dataErrors}
+                  success='Everything is valid!!!'
+                  title='Content validation' />
 
-          </div>
-
-          <div className='clearfix' />
-
-          <ValidationFeedback
-            errors={this.state.schemaErrors}
-            success='Schema is valid!!!'
-            title='Schema validation' />
-          <ValidationFeedback
-            errors={this.state.dataErrors}
-            success='Everything is valid!!!'
-            title='Content validation' />
-
+              </div>
+            </section>
+          </SplitPane>
         </div>
-      </section>
+
+      </div>
     );
   }
 }
