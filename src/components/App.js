@@ -94,12 +94,14 @@ class App extends React.Component {
             <aside className='j-aside-tabs'>
               <Switch>
                 {this.renderRouterTabs()}
+                <Redirect to='/editor' />
               </Switch>
             </aside>
 
             <section className='j-main'>
               <Switch>
                 {this.renderRouterContent()}
+                <Redirect to='/editor' />
               </Switch>
             </section>
           </SplitPane>
