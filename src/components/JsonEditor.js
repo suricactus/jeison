@@ -19,7 +19,8 @@ class JsonEditor extends React.Component {
     this.$editor = new JSONEditor(this.node, {
       ...this.props,
       onChange: this.onEditorChange.bind(this),
-      onError: this.onEditorError.bind(this)
+      // onError: this.onEditorError.bind(this)
+      onError: console.log
     });
 
     // moved this code so we can call it in other places
@@ -61,6 +62,7 @@ class JsonEditor extends React.Component {
   }
 
   onEditorError (e) {
+    console.log(5555);
     this.props.onError(e);
   }
 

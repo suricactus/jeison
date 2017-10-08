@@ -34,36 +34,25 @@ class EditorsRoute extends React.Component {
     const currentEditor = editors[ match.params.tabIndex ];
 
     return (
-      <div className='j-main'>
-        <SplitPane split='vertical' minSize={50} maxSize={300} defaultSize={150} className='primary'>
-          <aside className='j-aside-tabs'>
-            <AsideVerticalTabs
-              tabList={this.props.editors}
-              linkBase={'/editor/'}
-              storeName='editors'
-            />
-          </aside>
-          <section className='j-pane-container'>
-            <div className='j-pane'>
-              <JsonEditor
-                mode={'code'}
-                value={currentEditor.leftJsonPaneValue}
-                onChange={this.changeJsonPaneHandler.bind(this, 'left')}
-                onError={this.errorJsonPaneHandler.bind(this)} />
-            </div>
+      <section className='j-pane-container'>
+        <div className='j-pane'>
+          <JsonEditor
+            mode={'code'}
+            value={currentEditor.leftJsonPaneValue}
+            onChange={this.changeJsonPaneHandler.bind(this, 'left')}
+            onError={this.errorJsonPaneHandler.bind(this)} />
+        </div>
 
-            <EditorToolbar {...this.props} />
+        <EditorToolbar {...this.props} />
 
-            <div className='j-pane'>
-              <JsonEditor
-                mode={'tree'}
-                value={currentEditor.rightJsonPaneValue}
-                onChange={this.changeJsonPaneHandler.bind(this, 'right')}
-                onError={this.errorJsonPaneHandler.bind(this)} />
-            </div>
-          </section>
-        </SplitPane>
-      </div>
+        <div className='j-pane'>
+          <JsonEditor
+            mode={'tree'}
+            value={currentEditor.rightJsonPaneValue}
+            onChange={this.changeJsonPaneHandler.bind(this, 'right')}
+            onError={this.errorJsonPaneHandler.bind(this)} />
+        </div>
+      </section>
     );
   }
 }

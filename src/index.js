@@ -19,28 +19,7 @@ import 'font-awesome/css/font-awesome.css';
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App>
-        <Switch>
-          <Route path='/editor/:tabIndex' render={props => {
-            return (store.getState().editors[ props.match.params.tabIndex ])
-              ? <EditorsRoute {...props} />
-              : <Redirect to='/editor' />;
-          }} />
-          <Redirect from='/editor' to='/editor/0' />
-          <Route path='/validator/:tabIndex' render={props => {
-            return (store.getState().validators[ props.match.params.tabIndex ])
-              ? <ValidatorsRoute {...props} />
-              : <Redirect to='/validator' />;
-          }} />
-          <Redirect from='/validator' to='/validator/0' />
-          <Route path='/diff/:tabIndex' render={props => {
-            return (store.getState().diffs[ props.match.params.tabIndex ])
-              ? <DiffsRoute {...props} />
-              : <Redirect to='/diff' />;
-          }} />
-          <Redirect from='/diff' to='/diff/0' />
-        </Switch>
-      </App>
+      <App />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')

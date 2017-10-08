@@ -6,11 +6,14 @@ import SplitPane from 'react-split-pane';
 import jsondiffpatch from 'jsondiffpatch';
 import jsondiffpatchFormatters from 'jsondiffpatch/src/formatters';
 import jsonDiff from 'rfc6902-json-diff';
+import stringify from 'json-stringify-pretty-compact';
+import { toastr } from 'react-redux-toastr';
 
 import JsonEditor from '../../components/JsonEditor';
-import AsideVerticalTabs from '../../components/AsideVerticalTabs';
-// import ValidationFeedback from '../../components/ValidationFeedback';
+import Layout from '../../components/Layout';
 import * as actionCreators from './actions/actionCreators';
+
+import 'jsondiffpatch/public/formatters-styles/html.css';
 
 const RADIO_VALUE_HTML = 'RADIO_VALUE_HTML';
 const RADIO_VALUE_RFC6902 = 'RADIO_VALUE_RFC6902';
@@ -35,11 +38,6 @@ class ValidatorsRoute extends React.Component {
   }
 
   onChangePaneValue (pane, value, e) {
-    this.setState({
-      ...this.state,
-      shouldRenderOutput: false
-    });
-
     if (pane === 'left') {
       this.props.updateLeftJsonPaneValue(this.tabIndex, value);
     } else {
@@ -49,6 +47,11 @@ class ValidatorsRoute extends React.Component {
 
   onClickOutputBtn (rSelected) {
     this.setState({ ...this.state, rSelected });
+  }
+
+  onErrorJson (e) {
+    console.log(e);
+    toastr.error('JSON values is invalid', 'Please check the error: ' + e);
   }
 
   getJsonValues () {
@@ -83,17 +86,11 @@ class ValidatorsRoute extends React.Component {
     const diffJson = jsonDiff(leftValue, rightValue);
 
     return (
-      <JsonEditor mode={'code'} value={diffJson} onChange={e => {}} onError={e => {}} />
+      <JsonEditor mode={'code'} value={stringify(diffJson, null, 2)} onChange={e => {}} onError={e => {}} />
     );
   }
 
   renderResult () {
-    if (!this.state.shouldRenderOutput) {
-      return (
-        <Button onClick={e => this.setState({...this.state, shouldRenderOutput: true})}>Render with new values!</Button>
-      );
-    }
-
     if (this.state.rSelected === RADIO_VALUE_HTML) {
       return this.renderHtmlOutput();
     } else if (this.state.rSelected === RADIO_VALUE_RFC6902) {
@@ -103,61 +100,51 @@ class ValidatorsRoute extends React.Component {
 
   render () {
     return (
-      <div className='j-main'>
-        <SplitPane
-          split='vertical'
-          minSize={50}
-          maxSize={300}
-          defaultSize={150}
-          className='primary'>
-          <aside className='j-aside-tabs'>
-            <AsideVerticalTabs
-              tabList={this.props.diffs}
-              linkBase={'/diff/'}
-              storeName='diffs'
-            />
-          </aside>
-          <section className='j-pane-container'>
-            <div className='j-pane'>
+      <section className='j-pane-container'>
+        <div className='j-pane'>
+          <JsonEditor
+            mode={'code'}
+            value={this.currentDiffObj.leftValue}
+            onChange={this.onChangePaneValue.bind(this, 'left')}
+            onError={this.onErrorJson.bind(this)}
+              />
 
-              <div className='col-xs-6'>
-                <JsonEditor
-                  mode={'code'}
-                  value={this.currentDiffObj.leftValue}
-                  onChange={this.onChangePaneValue.bind(this, 'left')}
-                  onError={e => {}}
-                  />
+        </div>
+        <div className='j-pane'>
+          <JsonEditor
+            mode={'code'}
+            value={this.currentDiffObj.rightValue}
+            onChange={this.onChangePaneValue.bind(this, 'right')}
+            onError={this.onErrorJson.bind(this)}
+              />
+        </div>
+        <div className='j-pane'>
 
-              </div>
-              <div className='col-xs-6'>
-                <JsonEditor
-                  mode={'code'}
-                  value={this.currentDiffObj.rightValue}
-                  onChange={this.onChangePaneValue.bind(this, 'right')}
-                  onError={e => {}}
-                  />
+          <div className='col-xs-12 clearfix'>
 
-              </div>
-
-              <div className='clearfix' />
-
+            <FormGroup>
+              <Label>Choose output type:</Label>
               <ButtonGroup>
                 <Button
                   color='primary'
                   onClick={this.onClickOutputBtn.bind(this, RADIO_VALUE_HTML)}
-                  active={this.state.rSelected === RADIO_VALUE_HTML}>HTML</Button>
+                  active={this.state.rSelected === RADIO_VALUE_HTML}>
+                  HTML
+                </Button>
                 <Button
                   color='primary'
                   onClick={this.onClickOutputBtn.bind(this, RADIO_VALUE_RFC6902)}
-                  active={this.state.rSelected === RADIO_VALUE_RFC6902}>JSON</Button>
+                  active={this.state.rSelected === RADIO_VALUE_RFC6902}>
+                  JSON
+                </Button>
               </ButtonGroup>
+            </FormGroup>
 
-              {this.renderResult()}
+            {this.renderResult()}
 
-            </div>
-          </section>
-        </SplitPane>
-      </div>
+          </div>
+        </div>
+      </section>
     );
   }
 }

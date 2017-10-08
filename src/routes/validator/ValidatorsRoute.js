@@ -158,60 +158,49 @@ class ValidatorsRoute extends React.Component {
 
   render () {
     return (
-      <div className='j-main'>
-        <SplitPane split='vertical' minSize={50} maxSize={300} defaultSize={150} className='primary'>
-          <aside className='j-aside-tabs'>
-            <AsideVerticalTabs
-              tabList={this.props.validators}
-              linkBase={'/validator/'}
-              storeName='validators'
-            />
-          </aside>
-          <section className='j-pane-container'>
-            <div className='j-pane'>
-              <div className='form-inline'>
-                <label>
+      <section className='j-pane-container'>
+        <div className='j-pane'>
+          <div className='form-inline'>
+            <label>
                   Select predefined schema:
                   {this.renderSelectBox()}
-                </label>
-              </div>
+            </label>
+          </div>
 
-              <div className='col-xs-6'>
-                <h3>Schema</h3>
-                <JsonEditor
-                  mode={'code'}
-                  value={this.currentValidator.schemaValue}
-                  onChange={this.changeSchemaHandler.bind(this)}
-                  onError={e => {}}
+          <div className='col-xs-6'>
+            <h3>Schema</h3>
+            <JsonEditor
+              mode={'code'}
+              value={this.currentValidator.schemaValue}
+              onChange={this.changeSchemaHandler.bind(this)}
+              onError={e => {}}
                   />
 
-              </div>
-              <div className='col-xs-6'>
-                <h3>Data</h3>
-                <JsonEditor
-                  mode={'code'}
-                  value={this.currentValidator.jsonValue}
-                  onChange={this.changeDataHandler.bind(this)}
-                  onError={e => {}}
+          </div>
+          <div className='col-xs-6'>
+            <h3>Data</h3>
+            <JsonEditor
+              mode={'code'}
+              value={this.currentValidator.jsonValue}
+              onChange={this.changeDataHandler.bind(this)}
+              onError={e => {}}
                   />
 
-              </div>
+          </div>
 
-              <div className='clearfix' />
+          <div className='clearfix' />
 
-              <ValidationFeedback
-                errors={this.state.schemaErrors}
-                success='Schema is valid!!!'
-                title='Schema validation' />
-              <ValidationFeedback
-                errors={this.state.dataErrors}
-                success='Everything is valid!!!'
-                title='Content validation' />
+          <ValidationFeedback
+            errors={this.state.schemaErrors}
+            success='Schema is valid!!!'
+            title='Schema validation' />
+          <ValidationFeedback
+            errors={this.state.dataErrors}
+            success='Everything is valid!!!'
+            title='Content validation' />
 
-            </div>
-          </section>
-        </SplitPane>
-      </div>
+        </div>
+      </section>
     );
   }
 }

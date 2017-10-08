@@ -28,7 +28,7 @@ class AsideVerticalTabs extends React.Component {
 
     return (
       <NavItem key={index}>
-        <NavLink to={`${this.props.linkBase}${index}`}>
+        <NavLink to={`${this.props.linkBase}/${index}`}>
           <input type='text' placeholder='Enter Tab Name' value={tab.name}
             onClick={this.clickSelectTabNameHandler.bind(this)}
             onChange={this.changeTabNameHandler.bind(this, index)}
