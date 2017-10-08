@@ -9,6 +9,7 @@ import store, { history } from './store';
 import App from './components/App';
 import EditorsRoute from './routes/editor/EditorsRoute';
 import ValidatorsRoute from './routes/validator/ValidatorsRoute';
+import DiffsRoute from './routes/diff/DiffsRoute';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -32,6 +33,12 @@ ReactDOM.render(
               : <Redirect to='/validator' />;
           }} />
           <Redirect from='/validator' to='/validator/0' />
+          <Route path='/diff/:tabIndex' render={props => {
+            return (store.getState().diffs[ props.match.params.tabIndex ])
+              ? <DiffsRoute {...props} />
+              : <Redirect to='/diff' />;
+          }} />
+          <Redirect from='/diff' to='/diff/0' />
         </Switch>
       </App>
     </ConnectedRouter>
