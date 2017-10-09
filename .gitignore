@@ -6,8 +6,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production, but uncommenting it to work on gh-pages branch
+# /build
 
 # misc
 .DS_Store
