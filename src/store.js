@@ -5,7 +5,10 @@ import createHistory from 'history/createBrowserHistory';
 import reducers from './reducers';
 import persistState from 'redux-localstorage';
 
-export const history = createHistory();
+console.log(process.env);
+export const history = createHistory({
+  basename: process.env.NODE_ENV !== 'development' ? process.env.REACT_APP_BASE_URL : undefined
+});
 
 const initialState = {};
 
